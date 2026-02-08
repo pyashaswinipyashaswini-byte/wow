@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Abbayi garu tho Journey ❤️</title>
+
+<style>
+body{
+margin:0;
+background:black;
+color:white;
+font-family:Segoe UI, cursive;
+overflow:hidden;
+text-align:center;
+}
+
+.screen{
+display:none;
+height:100vh;
+width:100vw;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+padding:30px;
+}
+
+.active{display:flex;}
+
+button{
+padding:14px 30px;
+border:none;
+border-radius:30px;
+background:#ff4b7d;
+color:white;
+font-size:18px;
+cursor:pointer;
+}
+
+/* full image */
+.fullimg{
+position:absolute;
+width:100vw;
+height:100vh;
+object-fit:cover;
+}
+
+/* overlay */
+.overlay{
+position:absolute;
+background:rgba(0,0,0,0.5);
+padding:25px;
+border-radius:20px;
+}
+
+/* hearts */
+.heart{
+position:absolute;
+animation:float 7s linear infinite;
+font-size:22px;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh)}
+100%{transform:translateY(-10vh);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<audio id="bgmusic" src="mysong.mp3" loop></audio>
+
+<!-- INTRO SCREEN -->
+<div class="screen active" id="start">
+<h1>For My Mogudu Garu ❤️</h1>
+<button onclick="begin()">Start Our Story ❤️</button>
+</div>
+
+<!-- TEXT -->
+<div class="screen" id="textScreen">
+<h2 id="text"></h2>
+</div>
+
+<!-- PHOTO -->
+<div class="screen" id="photoScreen">
+<img id="slide" class="fullimg">
+<div class="overlay"><h2 id="photoText"></h2></div>
+</div>
+
+<!-- GAME -->
+<div class="screen" id="game">
+<h2>Evandoy Naa Heart ni pattukondi ❤️</h2>
+<button id="heartBtn" onclick="nextLetter()">❤️</button>
+</div>
+
+<!-- LETTER -->
+<div class="screen" id="letter">
+<h2 id="letterText"></h2>
+</div>
+
+<!-- FINAL -->
+<div class="screen" id="final">
+<h1>Happy Valentine’s Day Abbayi Garu ❤️</h1>
+<h2>I Love You Ippatiki, Eppatiki Chachedaka 💍</h2>
+</div>
+
+
+<script>
+
+let music=document.getElementById("bgmusic")
+
+function show(id){
+document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"))
+document.getElementById(id).classList.add("active")
+}
+
+/* START */
+function begin(){
+music.play()
+valentineWeek()
+}
+
+/* VALENTINE WEEK TEXTS */
+let days=[
+"🌹 Rose Day\nIppudepusina Gulabi entha andanga untundoo nii prema naa mida alane undali...",
+"💍 Propose Day\nNuv prathi roju nannu propose chesthav… naa life lo best gift nuvve...",
+"🍫 Chocolate Day\nNii matalu chocolate kanna sweet...",
+"🧸 Teddy Day\nNuv nannu hug chesinappudu naa prapancham complete...",
+"🤝 Promise Day\nI promise to stay with you forever...",
+"🤗 Hug Day\nI want only your hugs...",
+"😘 Kiss Day\nNii muddu lo na pranam untundi...",
+"❤️ Valentine’s Day\nFinally today I meet you..."
+]
+
+function valentineWeek(){
+show("textScreen")
+
+let i=0
+
+function next(){
+if(i<days.length){
+text.innerText=days[i]
+i++
+setTimeout(next,8000)
+}
+else{
+quotes()
+}
+}
+next()
+}
+
+/* QUOTES */
+let loveQuotes=[
+"Nannu baristhunandhuku thank you abbayi garu ❤️",
+"2 hours kuda ninnu lekunda undalenu...",
+"Distance entha unna manam kalisi untaam...",
+"Nuvve naa world ❤️"
+]
+
+function quotes(){
+let i=0
+
+function next(){
+if(i<loveQuotes.length){
+text.innerText=loveQuotes[i]
+i++
+setTimeout(next,9000)
+}
+else{
+photos()
+}
+}
+next()
+}
+
+/* PHOTOS */
+function photos(){
+show("photoScreen")
+
+let pics=["pic1.jpg","pic2.jpg","pic3.jpg"]
+let captions=[
+"Our cutest memory ❤️",
+"Naa Abbayi tho 🥰",
+"Forever us 💕"
+]
+
+let i=0
+setInterval(()=>{
+slide.src=pics[i%3]
+photoText.innerText=captions[i%3]
+i++
+},5000)
+
+setTimeout(gameStart,60000)
+}
+
+/* GAME */
+function gameStart(){
+show("game")
+
+setInterval(()=>{
+heartBtn.style.position="absolute"
+heartBtn.style.left=Math.random()*80+"vw"
+heartBtn.style.top=Math.random()*80+"vh"
+},500)
+}
+
+/* LETTER */
+function nextLetter(){
+show("letter")
+
+let msg="Even though we were far apart...\nI celebrated every day thinking of you...\nI coded all this only for you...\nYou are my forever...\nI LOVE YOU ❤️"
+
+let i=0
+function type(){
+if(i<msg.length){
+letterText.innerHTML+=msg[i]=="\n"?"<br>":msg[i]
+i++
+setTimeout(type,60)
+}
+else{
+setTimeout(()=>show("final"),15000)
+}
+}
+type()
+}
+
+/* floating hearts */
+setInterval(()=>{
+let h=document.createElement("div")
+h.className="heart"
+h.innerHTML="❤️"
+h.style.left=Math.random()*100+"vw"
+document.body.appendChild(h)
+setTimeout(()=>h.remove(),7000)
+},300)
+
+</script>
+
+</body>
+</html>
