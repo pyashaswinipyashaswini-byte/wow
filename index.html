@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <title>Abbayi garu tho Journey ❤️</title>
 
@@ -8,25 +9,26 @@ body{
 margin:0;
 background:black;
 color:white;
-font-family:Segoe UI, cursive;
-overflow:hidden;
+font-family:cursive;
 text-align:center;
+overflow:hidden;
 }
 
 .screen{
 display:none;
 height:100vh;
 width:100vw;
+display:flex;
+flex-direction:column;
 justify-content:center;
 align-items:center;
-flex-direction:column;
 padding:30px;
 }
 
 .active{display:flex;}
 
 button{
-padding:14px 30px;
+padding:15px 30px;
 border:none;
 border-radius:30px;
 background:#ff4b7d;
@@ -35,32 +37,17 @@ font-size:18px;
 cursor:pointer;
 }
 
-/* full image */
 .fullimg{
 position:absolute;
-width:100vw;
-height:100vh;
+width:100%;
+height:100%;
 object-fit:cover;
 }
 
-/* overlay */
 .overlay{
-position:absolute;
-background:rgba(0,0,0,0.5);
-padding:25px;
-border-radius:20px;
-}
-
-/* hearts */
-.heart{
-position:absolute;
-animation:float 7s linear infinite;
-font-size:22px;
-}
-
-@keyframes float{
-0%{transform:translateY(100vh)}
-100%{transform:translateY(-10vh);opacity:0}
+background:rgba(0,0,0,0.6);
+padding:20px;
+border-radius:15px;
 }
 </style>
 </head>
@@ -68,173 +55,99 @@ font-size:22px;
 <body>
 
 <!-- MUSIC -->
-<audio id="bgmusic" src="mysong.mp3" loop></audio>
+<audio id="music" src="mysong.mp3" loop></audio>
 
-<!-- INTRO SCREEN -->
+<!-- START PAGE -->
 <div class="screen active" id="start">
 <h1>For My Mogudu Garu ❤️</h1>
-<button onclick="begin()">Start Our Story ❤️</button>
+<button onclick="start()">Start Our Story ❤️</button>
 </div>
 
-<!-- TEXT -->
-<div class="screen" id="textScreen">
+<!-- TEXT PAGE -->
+<div class="screen" id="textPage">
 <h2 id="text"></h2>
 </div>
 
-<!-- PHOTO -->
-<div class="screen" id="photoScreen">
-<img id="slide" class="fullimg">
-<div class="overlay"><h2 id="photoText"></h2></div>
+<!-- PHOTO PAGE -->
+<div class="screen" id="photoPage">
+<img id="img" class="fullimg">
+<div class="overlay">
+<h2 id="caption"></h2>
+</div>
 </div>
 
-<!-- GAME -->
-<div class="screen" id="game">
-<h2>Evandoy Naa Heart ni pattukondi ❤️</h2>
-<button id="heartBtn" onclick="nextLetter()">❤️</button>
-</div>
-
-<!-- LETTER -->
-<div class="screen" id="letter">
-<h2 id="letterText"></h2>
-</div>
-
-<!-- FINAL -->
+<!-- FINAL PAGE -->
 <div class="screen" id="final">
-<h1>Happy Valentine’s Day Abbayi Garu ❤️</h1>
-<h2>I Love You Ippatiki, Eppatiki Chachedaka 💍</h2>
+<h1>Happy Valentine’s Day ❤️</h1>
+<h2>I Love You Ippatiki, Eppatiki, Chachedaka 💍</h2>
 </div>
-
 
 <script>
 
-let music=document.getElementById("bgmusic")
+let music=document.getElementById("music")
 
 function show(id){
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"))
 document.getElementById(id).classList.add("active")
 }
 
-/* START */
-function begin(){
+/* START BUTTON */
+function start(){
 music.play()
-valentineWeek()
+valentine()
 }
 
-/* VALENTINE WEEK TEXTS */
-let days=[
-"🌹 Rose Day\nIppudepusina Gulabi entha andanga untundoo nii prema naa mida alane undali...",
-"💍 Propose Day\nNuv prathi roju nannu propose chesthav… naa life lo best gift nuvve...",
-"🍫 Chocolate Day\nNii matalu chocolate kanna sweet...",
-"🧸 Teddy Day\nNuv nannu hug chesinappudu naa prapancham complete...",
-"🤝 Promise Day\nI promise to stay with you forever...",
-"🤗 Hug Day\nI want only your hugs...",
-"😘 Kiss Day\nNii muddu lo na pranam untundi...",
-"❤️ Valentine’s Day\nFinally today I meet you..."
+/* TEXTS */
+let lines=[
+"🌹 Rose Day – Naa life lo most beautiful flower nuvve",
+"💍 Propose Day – I choose you every single day",
+"🍫 Chocolate Day – Nii matalu chocolate kanna sweet",
+"🧸 Teddy Day – Nii hug naa safest place",
+"🤝 Promise Day – I will never leave you",
+"🤗 Hug Day – I miss your hugs daily",
+"😘 Kiss Day – Nii muddu lo naa pranam",
+"❤️ Valentine’s Day – Finally I meet you today",
+"I coded all this only for you...",
+"You are my forever person ❤️"
 ]
 
-function valentineWeek(){
-show("textScreen")
+function valentine(){
+show("textPage")
 
 let i=0
-
-function next(){
-if(i<days.length){
-text.innerText=days[i]
+let t=setInterval(()=>{
+text.innerText=lines[i]
 i++
-setTimeout(next,8000)
-}
-else{
-quotes()
-}
-}
-next()
+
+if(i==lines.length){
+clearInterval(t)
+setTimeout(photos,4000)
 }
 
-/* QUOTES */
-let loveQuotes=[
-"Nannu baristhunandhuku thank you abbayi garu ❤️",
-"2 hours kuda ninnu lekunda undalenu...",
-"Distance entha unna manam kalisi untaam...",
-"Nuvve naa world ❤️"
-]
-
-function quotes(){
-let i=0
-
-function next(){
-if(i<loveQuotes.length){
-text.innerText=loveQuotes[i]
-i++
-setTimeout(next,9000)
-}
-else{
-photos()
-}
-}
-next()
+},4000)
 }
 
 /* PHOTOS */
 function photos(){
-show("photoScreen")
+show("photoPage")
 
 let pics=["pic1.jpg","pic2.jpg","pic3.jpg"]
-let captions=[
-"Our cutest memory ❤️",
-"Naa Abbayi tho 🥰",
-"Forever us 💕"
-]
+let caps=["Our Memory ❤️","Naa Abbayi 🥰","Forever Us 💕"]
 
 let i=0
-setInterval(()=>{
-slide.src=pics[i%3]
-photoText.innerText=captions[i%3]
+
+let s=setInterval(()=>{
+img.src=pics[i]
+caption.innerText=caps[i]
 i++
-},5000)
 
-setTimeout(gameStart,60000)
+if(i==3){
+clearInterval(s)
+setTimeout(()=>show("final"),5000)
 }
 
-/* GAME */
-function gameStart(){
-show("game")
-
-setInterval(()=>{
-heartBtn.style.position="absolute"
-heartBtn.style.left=Math.random()*80+"vw"
-heartBtn.style.top=Math.random()*80+"vh"
-},500)
+},4000)
 }
-
-/* LETTER */
-function nextLetter(){
-show("letter")
-
-let msg="Even though we were far apart...\nI celebrated every day thinking of you...\nI coded all this only for you...\nYou are my forever...\nI LOVE YOU ❤️"
-
-let i=0
-function type(){
-if(i<msg.length){
-letterText.innerHTML+=msg[i]=="\n"?"<br>":msg[i]
-i++
-setTimeout(type,60)
-}
-else{
-setTimeout(()=>show("final"),15000)
-}
-}
-type()
-}
-
-/* floating hearts */
-setInterval(()=>{
-let h=document.createElement("div")
-h.className="heart"
-h.innerHTML="❤️"
-h.style.left=Math.random()*100+"vw"
-document.body.appendChild(h)
-setTimeout(()=>h.remove(),7000)
-},300)
 
 </script>
 
